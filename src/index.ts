@@ -4,6 +4,7 @@ import locationRouter from "./routes/locationRouter";
 import AppDataSource from "./data-source";
 import { setupRedis } from "./redis";
 import { notFoundHandler, errorHandler } from "./errors";
+import weatherRouter from "./routes/weatherRouter";
 
 process.on("unhandledRejection", (reason) => {
   console.error(
@@ -38,6 +39,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use("/users", usersRouter);
 app.use("/locations", locationRouter);
+app.use("/weather", weatherRouter);
 app.use("*", notFoundHandler);
 app.use(errorHandler);
 

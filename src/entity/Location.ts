@@ -29,9 +29,11 @@ export default class Location extends BaseEntity {
     longitude: number
   ): Promise<Location | null> {
     return Location.createQueryBuilder("location")
-      .where("latitude = :latitude", { latitude: normalizeNumber(latitude) })
+      .where("latitude = :latitude", {
+        latitude: normalizeCoordinates(latitude),
+      })
       .andWhere("longitude = :longitude", {
-        longitude: normalizeNumber(longitude),
+        longitude: normalizeCoordinates(longitude),
       })
       .getOne();
   }
@@ -54,6 +56,6 @@ export default class Location extends BaseEntity {
   }
 }
 
-function normalizeNumber(latOrLong: number): number {
-  return Number.parseFloat(latOrLong.toFixed(6));
+export function normalizeCoordinates(latOrLong: number): number {
+  return Number.parseFloat(latOrLong.toFixed(4));
 }

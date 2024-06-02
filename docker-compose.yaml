@@ -17,7 +17,7 @@ services:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: postgresql://postgres:postgres@db:5432/sidedish
       PORT: 3000
-      WEATHER_API_KEY: NBSj1GIAB9tOJQs3WFB0nV3grFV5Lblq
+      WEATHER_API_KEY: ddd8087e0618410186a111005240206
 
   db:
     image: postgres
