@@ -2,20 +2,22 @@ services:
   backend:
     build:
       context: .
-      dockerfile: Dockerfile-dev
+      dockerfile: Dockerfile
     expose:
       - 3000
     ports: # For attach to debugger
       - "9229:9229"
+      - "3000:3000"
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       REDIS_URL: redis://redis:6379
       DATABASE_URL: postgresql://postgres:postgres@db:5432/sidedish
-      PORT: 3001
+      PORT: 3000
       WEATHER_API_KEY: NBSj1GIAB9tOJQs3WFB0nV3grFV5Lblq
-    entrypoint: ["npm", "run", "dev"]
 
   db:
     image: postgres
@@ -24,8 +26,18 @@ services:
     environment:
       POSTGRES_DB: "sidedish"
       POSTGRES_PASSWORD: "postgres"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis/redis-stack
     ports:
       - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30

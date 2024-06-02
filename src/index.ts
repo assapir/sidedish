@@ -18,12 +18,12 @@ process.on("uncaughtException", (error: Error) => {
 });
 
 AppDataSource.initialize().catch((err) => {
-  console.log("Unable to init datasource! exiting");
+  console.log("Unable to init datasource! exiting", err);
   process.exit(1);
 });
 
 setupRedis().catch((error) => {
-  console.log("Unable to init redis connection! exiting");
+  console.log("Unable to init redis connection! exiting", error);
   process.exit(1);
 });
 
@@ -36,8 +36,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use("/user", usersRouter);
-app.use("/location", locationRouter);
+app.use("/users", usersRouter);
+app.use("/locations", locationRouter);
 app.use("*", notFoundHandler);
 app.use(errorHandler);
 

@@ -35,6 +35,6 @@ export default class UserLocations extends BaseEntity {
   })
   frequency: Frequency;
 
-  @Column({ type: "date" })
+  @Column({ type: "date", nullable: true })
   lastSent?: Date;
 }

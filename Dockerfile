@@ -28,4 +28,4 @@ COPY --from=builder --chown=nodejs:nodejs /app/node_modules node_modules
 
 USER nodejs
 
-ENTRYPOINT ["node", "--env-file=.env", "dist/src/index.js"]
+ENTRYPOINT ["node", "dist/src/index.js"]

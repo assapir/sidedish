@@ -9,6 +9,8 @@ export class AppError extends Error {
   }
 }
 
+export const InvalidCredentialsError = new AppError("Invalid Credentials", 401);
+
 // Not found handler
 export const notFoundHandler = (req: Request, res: Response) => {
   res.status(404).json({ error: "Not found" });
@@ -21,8 +23,9 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  console.error(err.message);
   if (err instanceof AppError) {
-    res.status(err.status).json({ error: err.message });
+    return res.status(err.status).json({ error: err.message });
   }
-  res.status(500).json({ error: err.message });
+  return res.status(500).json({ error: err.message });
 };
