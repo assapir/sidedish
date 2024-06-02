@@ -1,14 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 import Location from "../entity/Location";
 import { z } from "zod";
-import UserLocations from "../entity/UserLocations";
-import User from "../entity/User";
+import UserLocations, { Frequency } from "../entity/UserLocations";
 import { AppError } from "../errors";
 
 export const locationSchema = z.object({
-  name: z.string(),
-  latitude: z.number(),
-  longitude: z.number(),
+  name: z
+    .string({ message: "Location name must be a string" })
+    .trim()
+    .min(2, "Location name must be at least 2 characters long"),
+  latitude: z.number({
+    message: "Latitude must be a number",
+  }),
+  longitude: z.number({
+    message: "Longitude must be a number",
+  }),
+  frequency: z
+    .enum([Frequency.DAILY, Frequency.WEEKLY, Frequency.MONTHLY])
+    .default(Frequency.DAILY),
 });
 
 type LocationRequestBody = z.infer<typeof locationSchema>;
@@ -19,7 +28,7 @@ export async function addLocation(
   next: NextFunction
 ) {
   try {
-    const { name, latitude, longitude } = req.body;
+    const { name, latitude, longitude, frequency } = req.body;
     const { user } = res.locals;
 
     const newLocation = await Location.getOrCreateLocation(
@@ -31,6 +40,7 @@ export async function addLocation(
     const userLocation = new UserLocations();
     userLocation.user = user;
     userLocation.location = newLocation;
+    userLocation.frequency = frequency;
     await userLocation.save();
 
     res.status(201).json({ message: "Location added", location: newLocation });

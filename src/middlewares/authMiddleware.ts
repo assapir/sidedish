@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "../entity/User";
 
 export default function authMiddleware() {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     try {
       if (!req.headers.authorization) {
         throw InvalidCredentialsError;
@@ -26,7 +26,10 @@ export default function authMiddleware() {
         throw InvalidCredentialsError;
       }
 
-      const actualUser = User.findOne({ where: { id: user.id } });
+      const actualUser = await User.findOne({ where: { id: user.id } });
+      if (!actualUser) {
+        throw InvalidCredentialsError;
+      }
       res.locals.user = actualUser;
       return next();
     } catch (error) {

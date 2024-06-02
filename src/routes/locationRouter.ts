@@ -10,7 +10,7 @@ import { zodBodyMiddleware } from "../middlewares/validationMiddleware";
 const locationRouter = Router();
 
 // All this routes are authenticated, because we need to know who the user is
-locationRouter.use(authMiddleware);
+locationRouter.use(authMiddleware());
 
 locationRouter.post("/", zodBodyMiddleware(locationSchema), addLocation);
 locationRouter.delete("/:id", deleteLocation);

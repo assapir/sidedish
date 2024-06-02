@@ -7,7 +7,12 @@ export function zodBodyMiddleware(schema: Schema) {
     try {
       const validate = await schema.safeParseAsync(req.body);
       if (!validate.success) {
-        return next(new AppError(validate.error.message, 400));
+        return next(
+          new AppError(
+            validate.error.issues.map((i) => i.message).join(", "),
+            400
+          )
+        );
       }
 
       return next();

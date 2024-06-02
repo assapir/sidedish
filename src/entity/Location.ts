@@ -15,10 +15,10 @@ export default class Location extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: "decimal" })
   latitude: number;
 
-  @Column()
+  @Column({ type: "decimal" })
   longitude: number;
 
   @OneToMany(() => UserLocations, (userLocation) => userLocation.location)
