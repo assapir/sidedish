@@ -1,6 +1,7 @@
 import AppDataSource from "./data-source";
 import { setupRedis } from "./redis";
-import startApp from "./setupApp";
+import startApp from "./app";
+import startScheduler from "./scheduler";
 
 process.on("unhandledRejection", (reason) => {
   console.error(
@@ -29,4 +30,15 @@ if (typeof process.env.WEATHER_API_KEY !== "string") {
   process.exit(1);
 }
 
+if (typeof process.env.SMTP_USER !== "string") {
+  console.log("SMTP_USER is not set!");
+  process.exit(1);
+}
+
+if (typeof process.env.SMTP_PASS !== "string") {
+  console.log("SMTP_PASS is not set!");
+  process.exit(1);
+}
+
 startApp();
+startScheduler();
