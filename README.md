@@ -20,3 +20,7 @@ This project has three main API routes:
     - `DELETE /:id`: This endpoint is used to delete a location for a user. It expects the ID of the location to be deleted as a URL parameter.
 3.  `/weather`: This route handles weather-related operations such as fetching the current weather and weather forecast for a location. It has one endpoint:
     - GET /: This endpoint is used to fetch the current weather and weather forecast for a location. It expects query parameters containing the location's and coordinates.
+
+## TODO:
+
+I only started to implement the schedular for sending emails. I think it's not the right approach, but this drill limits one a lot. What I would do is creating a lambda function that go to the DB and get all the details to whom it need to be sent and then pass it to the SES to be sent.

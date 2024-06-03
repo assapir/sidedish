@@ -5,10 +5,7 @@ import { IsNull } from "typeorm";
 export default function startScheduler() {
   scheduleJob("0 0 * * *", async (fireDate) => {
     console.log(`Starting at ${fireDate}`);
-    const neverSent = await UserLocations.find({
-      where: {
-        lastSent: IsNull(),
-      },
-    });
+    // TODO: Send emails to users that haven't been sent at all.
+    // Send emails for those who need by their desired frequency
   });
 }

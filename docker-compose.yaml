@@ -18,8 +18,8 @@ services:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/sidedish
       PORT: 3000
       WEATHER_API_KEY: ddd8087e0618410186a111005240206
-      SMTP_USER: AKIAZI2LFBLPWEKD2VLP
-      SMTP_PASS: BOiKHi2KzjzX9S49EkAbjRNysECSeAw7PN58HpNF+z4z
+      # SMTP_USER: FILL ME
+      # SMTP_PASS: FILL ME
       SMTP_HOST: email-smtp.us-east-1.amazonaws.com
       SMTP_PORT: 587
 
